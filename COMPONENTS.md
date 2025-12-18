@@ -182,7 +182,90 @@ SocialLoginButton(
 
 ---
 
-## 🎯 Text Styles Usage
+### 6. **CustomTextField** ⭐ (NEW!)
+Text field yang elegant dengan full animation, validation, dan currency formatting.
+
+```dart
+import 'package:gifx/app/views/widgets/index.dart';
+
+// Email field
+CustomTextField(
+  label: 'Email Address',
+  hint: 'Enter your email',
+  type: TextFieldType.email,
+  prefixIcon: 'email',
+  validator: (value) {
+    if (value?.isEmpty ?? true) return 'Email is required';
+    if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value!)) {
+      return 'Invalid email';
+    }
+    return null;
+  },
+)
+
+// Password field
+CustomTextField(
+  label: 'Password',
+  hint: 'Enter password',
+  type: TextFieldType.password,
+  prefixIcon: 'lock',
+  minLength: 8,
+  validator: (value) {
+    if (value?.isEmpty ?? true) return 'Required';
+    if (value!.length < 8) return 'Min 8 chars';
+    return null;
+  },
+)
+
+// Number field with currency
+CustomTextField(
+  label: 'Amount',
+  hint: 'Enter amount',
+  type: TextFieldType.number,
+  currencyFormat: CurrencyFormat.IDR, // or USD
+)
+
+// Descriptive field
+CustomTextField(
+  label: 'Description',
+  hint: 'Write your description...',
+  type: TextFieldType.descriptive,
+  maxLines: 5,
+  maxLength: 500,
+)
+```
+
+**Parameters**:
+- `label` (String): Label teks di atas field
+- `hint` (String): Placeholder text
+- `type` (TextFieldType): email, password, number, descriptive
+- `controller` (TextEditingController?): Controller untuk manage text
+- `minLength` (int): Minimum character length
+- `maxLength` (int): Maximum character length, default 255
+- `validator` (Function?): Custom validation function
+- `onChanged` (Function?): Callback saat text berubah
+- `prefixIcon` (String?): Icon sebelum text (email, lock, phone, user, description)
+- `suffixIcon` (String?): Icon sesudah text
+- `currencyFormat` (CurrencyFormat?): IDR atau USD untuk number type
+- `borderRadius` (double): Border radius, default 14
+- `padding` (EdgeInsets): Padding dalam field
+
+**Features**:
+- ✅ Full animation (focus, border glow, label color)
+- ✅ Real-time validation dengan error display
+- ✅ Currency formatting (IDR Rp, USD $) dengan thousand separator
+- ✅ Password toggle dengan AnimatedIcon
+- ✅ Min/max length validation
+- ✅ Dark/light theme support
+- ✅ Glassmorphic design
+- ✅ Helper text untuk email & password types
+- ✅ Character counter untuk descriptive type
+
+**See**: [TEXTFIELD_GUIDE.md](TEXTFIELD_GUIDE.md) for detailed documentation
+
+---
+
+
 
 ```dart
 import 'package:gifx/config/theme/app_text_styles.dart';

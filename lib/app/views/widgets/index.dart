@@ -5,3 +5,4 @@ export 'custom_icon_button.dart';
 export 'social_login_button.dart';
 export 'glassmorphic_container.dart';
 export 'theme_annotated_region.dart';
+export 'custom_text_field.dart';

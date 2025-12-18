@@ -41,33 +41,47 @@ class MyPage extends StatelessWidget {
 }
 ```
 
-### 2. Form dengan Custom Buttons
+### 2. Form dengan Custom Buttons & TextFields
 ```dart
 Column(
   children: [
-    // Text field
-    TextField(
-      decoration: InputDecoration(
-        labelText: 'Email',
-        hintText: 'Enter email',
-      ),
+    // Email text field
+    CustomTextField(
+      label: 'Email',
+      hint: 'Enter email',
+      type: TextFieldType.email,
+      prefixIcon: 'email',
+      validator: (value) {
+        if (value?.isEmpty ?? true) return 'Email is required';
+        if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value!)) {
+          return 'Invalid email';
+        }
+        return null;
+      },
     ),
     const SizedBox(height: 16),
     
-    // Login button
+    // Password text field
+    CustomTextField(
+      label: 'Password',
+      hint: 'Enter password',
+      type: TextFieldType.password,
+      prefixIcon: 'lock',
+      minLength: 8,
+      validator: (value) {
+        if (value?.isEmpty ?? true) return 'Password required';
+        if (value!.length < 8) return 'Min 8 chars';
+        return null;
+      },
+    ),
+    const SizedBox(height: 16),
+    
+    // Submit button
     CustomElevatedButton(
       label: 'Login',
       onPressed: () {},
       width: double.infinity,
       height: 48,
-    ),
-    const SizedBox(height: 12),
-    
-    // Social logins
-    SocialLoginButton(
-      label: 'Login with Google',
-      icon: Icons.flutter_dash,
-      onPressed: () {},
     ),
   ],
 )
@@ -236,6 +250,50 @@ const Map<String, Map<String, String>> translations = {
 
 ---
 
+## 🎯 Custom TextField Cheatsheet
+
+### Quick Setup
+```dart
+// Email field
+CustomTextField(
+  label: 'Email',
+  hint: 'Enter email',
+  type: TextFieldType.email,
+  prefixIcon: 'email',
+  validator: (v) => v?.isEmpty ?? true ? 'Required' : null,
+)
+
+// Password field
+CustomTextField(
+  label: 'Password',
+  hint: 'Enter password',
+  type: TextFieldType.password,
+  prefixIcon: 'lock',
+  minLength: 8,
+)
+
+// Number field (currency)
+CustomTextField(
+  label: 'Amount',
+  hint: 'Enter amount',
+  type: TextFieldType.number,
+  currencyFormat: CurrencyFormat.IDR,
+)
+
+// Descriptive field
+CustomTextField(
+  label: 'Description',
+  hint: 'Write here...',
+  type: TextFieldType.descriptive,
+  maxLines: 5,
+  maxLength: 500,
+)
+```
+
+**See**: [TEXTFIELD_GUIDE.md](TEXTFIELD_GUIDE.md) for complete documentation
+
+---
+
 ## 🎯 Font Sizes at a Glance
 
 | Style | Size | Weight | Usage |
@@ -276,12 +334,14 @@ errorColor: AppColors.errorRed
 // All-in-one import
 import 'package:gifx/app/views/widgets/index.dart';
 
-// Individual imports (if needed)
-import 'package:gifx/app/views/widgets/custom_app_bar.dart';
-import 'package:gifx/app/views/widgets/custom_elevated_button.dart';
-import 'package:gifx/app/views/widgets/custom_icon_button.dart';
-import 'package:gifx/app/views/widgets/social_login_button.dart';
-import 'package:gifx/app/views/widgets/glassmorphic_container.dart';
+// Then use:
+// - CustomAppBar
+// - CustomElevatedButton
+// - CustomIconButton
+// - SocialLoginButton
+// - GlassmorphicContainer
+// - ThemeAnnotatedRegion
+// - CustomTextField (NEW!)
 ```
 
 ---
