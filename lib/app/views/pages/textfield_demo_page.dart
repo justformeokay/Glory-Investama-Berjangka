@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gifx/app/controllers/theme_controller.dart';
 import 'package:gifx/app/views/widgets/index.dart';
 import 'package:gifx/config/theme/app_text_styles.dart';
 import 'package:gifx/constants/colors.dart';
@@ -85,7 +86,7 @@ class _TextFieldDemoPageState extends State<TextFieldDemoPage> {
               padding: const EdgeInsets.only(right: 8),
               child: Center(
                 child: Obx(() {
-                  final themeController = Get.find();
+                  final themeController = Get.find<ThemeController>();
                   return CustomIconButton(
                     icon: themeController.isDarkMode
                         ? Icons.light_mode

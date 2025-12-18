@@ -5,7 +5,6 @@ import 'package:gifx/app/views/pages/textfield_demo_page.dart';
 import 'app/controllers/theme_controller.dart';
 import 'config/theme/app_theme.dart';
 import 'config/localization/localization_service.dart';
-import 'app/views/pages/home_page.dart';
 import 'utils/system_ui_helper.dart';
 import 'constants/colors.dart';
 
@@ -63,7 +62,7 @@ class MyApp extends StatelessWidget {
                   ? Colors.white.withAlpha((0.1 * 255).toInt())
                   : Colors.black.withAlpha((0.1 * 255).toInt()),
             ),
-            child: const TextFieldDemoPage(),
+            child: TextFieldDemoPage(),
           );
         },
       ),
