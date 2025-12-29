@@ -1,14 +1,19 @@
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
+import 'package:gifx/app/bindings/dashboard_binding.dart';
+import 'package:gifx/app/bindings/deposit_binding.dart';
 import 'package:gifx/app/bindings/forgot_password_binding.dart';
 import 'package:gifx/app/bindings/otp_binding.dart';
 import 'package:gifx/app/bindings/passcode_binding.dart';
 import 'package:gifx/app/bindings/sign_in_binding.dart';
+import 'package:gifx/app/bindings/withdrawal_binding.dart';
+import 'package:gifx/app/views/pages/dashboard_page.dart';
+import 'package:gifx/app/views/pages/deposit_page.dart';
 import 'package:gifx/app/views/pages/forgot_password_page.dart';
 import 'package:gifx/app/views/pages/otp_page.dart';
 import 'package:gifx/app/views/pages/passcode_page.dart';
 import 'package:gifx/app/views/pages/sign_in_page.dart';
 import 'package:gifx/app/views/pages/textfield_demo_page.dart';
+import 'package:gifx/app/views/pages/withdrawal_page.dart';
 
 class Routes {
   static List<GetPage<dynamic>> getPages = [
@@ -22,6 +27,12 @@ class Routes {
       name: '/passcode',
       page: () => const PasscodePage(),
       binding: PasscodeBinding(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: '/dashboard',
+      page: () => const DashboardPage(),
+      binding: DashboardBinding(),
       transition: Transition.cupertino,
     ),
     GetPage(
@@ -39,6 +50,18 @@ class Routes {
       name: '/otp',
       page: () => const OtpPage(),
       binding: OtpBinding(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: '/deposit',
+      page: () => const DepositPage(),
+      binding: DepositBinding(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: '/withdrawal',
+      page: () => const WithdrawalPage(),
+      binding: WithdrawalBinding(),
       transition: Transition.cupertino,
     ),
   ];

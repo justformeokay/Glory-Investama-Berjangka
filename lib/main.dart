@@ -42,29 +42,6 @@ class MyApp extends StatelessWidget {
       // Routes
       initialRoute: '/sign-in',
       getPages: Routes.getPages,
-      // Home Page (fallback)
-      home: Obx(
-        () {
-          final themeMode = Get.find<ThemeController>().themeMode;
-          final isDark = themeMode == ThemeMode.dark;
-          return AnnotatedRegion<SystemUiOverlayStyle>(
-            value: SystemUiOverlayStyle(
-              // Status bar settings
-              statusBarColor: isDark ? const Color(0xFF1F1F1F).withAlpha((0.7 * 255).toInt()) : AppColors.primaryGold.withAlpha((0.7 * 255).toInt()),
-              statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
-              statusBarBrightness: isDark ? Brightness.dark : Brightness.light,
-              
-              // Navigation bar settings
-              systemNavigationBarColor: isDark ? const Color(0xFF121212) : AppColors.bgLight,
-              systemNavigationBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
-              
-              // System navigation bar divider color
-              systemNavigationBarDividerColor: isDark ? Colors.white.withAlpha((0.1 * 255).toInt()) : Colors.black.withAlpha((0.1 * 255).toInt()),
-            ),
-            child: const SignInPage(),
-          );
-        },
-      ),
     );
   }
 }
