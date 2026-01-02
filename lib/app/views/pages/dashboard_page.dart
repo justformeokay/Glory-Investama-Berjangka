@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
 import '../../../constants/colors.dart';
 import '../widgets/custom_drawer.dart';
@@ -129,6 +130,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
         IconButton(
           onPressed: () {
             // Show notifications
+            Get.toNamed('/notifications');
           },
           icon: Stack(
             children: [

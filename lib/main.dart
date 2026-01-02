@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:gifx/app/views/pages/sign_in_page.dart';
 import 'package:gifx/utils/routes.dart';
 import 'app/controllers/theme_controller.dart';
 import 'config/theme/app_theme.dart';
 import 'config/localization/localization_service.dart';
 import 'utils/system_ui_helper.dart';
-import 'constants/colors.dart';
 
 void main() {
   Get.put(ThemeController());
@@ -21,7 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'GIFX App',
+      title: 'GIFX Trade',
       debugShowCheckedModeBanner: false,
       
       // Localization Settings

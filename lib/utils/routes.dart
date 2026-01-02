@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 import 'package:gifx/app/bindings/dashboard_binding.dart';
 import 'package:gifx/app/bindings/deposit_binding.dart';
 import 'package:gifx/app/bindings/forgot_password_binding.dart';
+import 'package:gifx/app/bindings/internal_transfer_binding.dart';
+import 'package:gifx/app/bindings/notification_binding.dart';
 import 'package:gifx/app/bindings/otp_binding.dart';
 import 'package:gifx/app/bindings/passcode_binding.dart';
 import 'package:gifx/app/bindings/sign_in_binding.dart';
@@ -9,6 +11,8 @@ import 'package:gifx/app/bindings/withdrawal_binding.dart';
 import 'package:gifx/app/views/pages/dashboard_page.dart';
 import 'package:gifx/app/views/pages/deposit_page.dart';
 import 'package:gifx/app/views/pages/forgot_password_page.dart';
+import 'package:gifx/app/views/pages/internal_transfer_page.dart';
+import 'package:gifx/app/views/pages/notification_page.dart';
 import 'package:gifx/app/views/pages/otp_page.dart';
 import 'package:gifx/app/views/pages/passcode_page.dart';
 import 'package:gifx/app/views/pages/sign_in_page.dart';
@@ -62,6 +66,18 @@ class Routes {
       name: '/withdrawal',
       page: () => const WithdrawalPage(),
       binding: WithdrawalBinding(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: '/internal-transfer',
+      page: () => const InternalTransferPage(),
+      binding: InternalTransferBinding(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: '/notifications',
+      page: () => const NotificationPage(),
+      binding: NotificationBinding(),
       transition: Transition.cupertino,
     ),
   ];

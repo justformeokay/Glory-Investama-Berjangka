@@ -163,6 +163,7 @@ class HomeTab extends StatelessWidget {
                 icon: Iconsax.convert_outline,
                 label: 'Transfer',
                 color: AppColors.infoBlue,
+                onTap: () => Get.toNamed('/internal-transfer'),
               ),
             ),
             const SizedBox(width: 12),
