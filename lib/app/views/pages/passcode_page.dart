@@ -432,19 +432,16 @@ class _PasscodePageState extends State<PasscodePage>
                             height: 80,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              gradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: [
-                                  AppColors.primaryGold.withValues(alpha: 0.2),
-                                  AppColors.primaryGold.withValues(alpha: 0.1),
-                                ],
+                              color: AppColors.primaryGold.withOpacity(0.15),
+                              border: Border.all(
+                                color: AppColors.primaryGold,
+                                width: 3,
                               ),
                             ),
                             child: Center(
                               child: Icon(
-                                OctIcons.check_circle_fill,
-                                size: 40,
+                                Icons.check_circle,
+                                size: 52,
                                 color: AppColors.primaryGold,
                               ),
                             ),
@@ -486,13 +483,13 @@ class _PasscodePageState extends State<PasscodePage>
                               end: Alignment.bottomRight,
                               colors: [
                                 AppColors.primaryGold,
-                                AppColors.primaryGold.withValues(alpha: 0.8),
+                                AppColors.primaryGold.withOpacity(0.8),
                               ],
                             ),
                             borderRadius: BorderRadius.circular(12),
                             boxShadow: [
                               BoxShadow(
-                                color: AppColors.primaryGold.withValues(alpha: 0.3),
+                                color: AppColors.primaryGold.withOpacity(0.3),
                                 blurRadius: 12,
                                 offset: const Offset(0, 6),
                               ),

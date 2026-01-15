@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import '../models/trading_account.dart';
-import '../models/internal_transfer.dart';
 
 class InternalTransferController extends GetxController {
   final selectedFromAccount = Rxn<TradingAccount>();

@@ -60,7 +60,7 @@ class SignInController extends GetxController {
     isLoading.value = true;
 
     try {
-      final response = await authService.login(
+      await authService.login(
         email: emailController.text.trim(),
         password: passwordController.text,
       );

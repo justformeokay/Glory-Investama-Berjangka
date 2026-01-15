@@ -5,7 +5,6 @@ import '../../../constants/colors.dart';
 import '../../../config/theme/app_text_styles.dart';
 import '../../controllers/notification_controller.dart';
 import '../../models/notification.dart';
-import '../widgets/glassmorphic_container.dart';
 
 class NotificationPage extends StatelessWidget {
   const NotificationPage({super.key});

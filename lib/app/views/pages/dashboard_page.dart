@@ -7,6 +7,7 @@ import 'dashboard/home_tab.dart';
 import 'dashboard/markets_tab.dart';
 import 'dashboard/transactions_tab.dart';
 import 'dashboard/signals_tab.dart';
+import 'search_page.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -120,7 +121,11 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
       actions: [
         IconButton(
           onPressed: () {
-            // Show search
+            Get.to(
+              () => const SearchPage(),
+              transition: Transition.fadeIn,
+              duration: const Duration(milliseconds: 300),
+            );
           },
           icon: Icon(
             Iconsax.search_normal_outline,

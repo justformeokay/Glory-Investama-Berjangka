@@ -5,7 +5,6 @@ import '../../../constants/colors.dart';
 import '../../../config/theme/app_text_styles.dart';
 import '../../controllers/withdrawal_controller.dart';
 import '../../models/withdrawal_method.dart';
-import '../widgets/glassmorphic_container.dart';
 import '../widgets/custom_elevated_button.dart';
 
 class WithdrawalPage extends StatelessWidget {

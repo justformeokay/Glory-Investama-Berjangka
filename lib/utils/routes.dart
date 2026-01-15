@@ -7,6 +7,7 @@ import 'package:gifx/app/bindings/notification_binding.dart';
 import 'package:gifx/app/bindings/otp_binding.dart';
 import 'package:gifx/app/bindings/passcode_binding.dart';
 import 'package:gifx/app/bindings/sign_in_binding.dart';
+import 'package:gifx/app/bindings/trade_binding.dart';
 import 'package:gifx/app/bindings/withdrawal_binding.dart';
 import 'package:gifx/app/views/pages/dashboard_page.dart';
 import 'package:gifx/app/views/pages/deposit_page.dart';
@@ -17,6 +18,7 @@ import 'package:gifx/app/views/pages/otp_page.dart';
 import 'package:gifx/app/views/pages/passcode_page.dart';
 import 'package:gifx/app/views/pages/sign_in_page.dart';
 import 'package:gifx/app/views/pages/textfield_demo_page.dart';
+import 'package:gifx/app/views/pages/trade_page.dart';
 import 'package:gifx/app/views/pages/withdrawal_page.dart';
 
 class Routes {
@@ -79,6 +81,12 @@ class Routes {
       page: () => const NotificationPage(),
       binding: NotificationBinding(),
       transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: '/trade',
+      page: () => TradePage(),
+      binding: TradeBinding(),
+      transition: Transition.fadeIn,
     ),
   ];
 }

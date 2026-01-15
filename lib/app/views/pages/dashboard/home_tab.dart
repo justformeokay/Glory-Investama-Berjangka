@@ -54,70 +54,202 @@ class HomeTab extends StatelessWidget {
   }
 
   Widget _buildBalanceCard(BuildContext context) {
+    const totalBalance = 124580.50;
+    const usedMargin = 2500.00;
+    const freeMargin = totalBalance - usedMargin;
+    const freeMarginPercent = (freeMargin / totalBalance) * 100;
+    const monthlyChange = 12.5;
+    const accountType = 'Real Account'; // or 'Demo Account'
+    const equity = 125000.00;
+
     return Container(
-      width: .infinity,
-      padding: .all(24),
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            AppColors.primaryGold.withOpacity(0.9),
-            AppColors.primaryGoldDark.withOpacity(0.8),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        color: AppColors.primaryGold,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primaryGold.withOpacity(0.3),
-            blurRadius: 20,
-            offset: const Offset(0, 8),
+            color: AppColors.primaryGold.withOpacity(0.2),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Header Row with Account Type Badge
           Row(
-            mainAxisAlignment: .spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'Total Balance',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: AppColors.secondaryWhite.withOpacity(0.9),
-                    ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Total Balance',
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: AppColors.secondaryWhite.withOpacity(0.85),
+                          fontWeight: FontWeight.w500,
+                        ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    '\$${totalBalance.toStringAsFixed(2)}',
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.secondaryWhite,
+                        ),
+                  ),
+                ],
               ),
-              Icon(
-                Iconsax.eye_outline,
-                color: AppColors.secondaryWhite.withOpacity(0.9),
-                size: 20,
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: accountType == 'Real Account'
+                      ? AppColors.successGreen.withOpacity(0.3)
+                      : AppColors.errorRed.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  accountType,
+                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: accountType == 'Real Account'
+                            ? Colors.white
+                            : AppColors.errorRed,
+                      ),
+                ),
               ),
             ],
           ),
-          const SizedBox(height: 12),
-          Text(
-            '\$124,580.50',
-            style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                  fontWeight: .bold,
-                  color: AppColors.secondaryWhite,
-                ),
-          ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 16),
+
+          // Monthly Performance
           Row(
             children: [
               Icon(
-                Iconsax.arrow_up_outline,
-                color: AppColors.successGreen,
+                monthlyChange >= 0
+                    ? Iconsax.arrow_up_outline
+                    : Iconsax.arrow_down_outline,
+                color: monthlyChange >= 0
+                    ? AppColors.successGreen
+                    : AppColors.errorRed,
                 size: 16,
               ),
-              const SizedBox(width: 4),
+              const SizedBox(width: 6),
               Text(
-                '+12.5% this month',
+                '${monthlyChange >= 0 ? '+' : ''}${monthlyChange.toStringAsFixed(1)}% this month',
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: AppColors.secondaryWhite.withOpacity(0.8),
                     ),
               ),
             ],
+          ),
+          const SizedBox(height: 20),
+
+          // Divider
+          Container(
+            height: 1,
+            color: AppColors.secondaryWhite.withOpacity(0.15),
+          ),
+          const SizedBox(height: 16),
+
+          // Info Grid
+          Row(
+            children: [
+              Expanded(
+                child: _buildCardInfoItem(
+                  context,
+                  label: 'Equity',
+                  value: '\$${equity.toStringAsFixed(2)}',
+                  icon: Iconsax.wallet_outline,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _buildCardInfoItem(
+                  context,
+                  label: 'Used Margin',
+                  value: '\$${usedMargin.toStringAsFixed(2)}',
+                  icon: Iconsax.graph_outline,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(
+                child: _buildCardInfoItem(
+                  context,
+                  label: 'Free Margin',
+                  value: '\$${freeMargin.toStringAsFixed(2)}',
+                  icon: Iconsax.empty_wallet_outline,
+                  isFreeMargin: true,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _buildCardInfoItem(
+                  context,
+                  label: 'Free Margin %',
+                  value: '${freeMarginPercent.toStringAsFixed(1)}%',
+                  icon: Iconsax.percentage_circle_outline,
+                  isPercentage: true,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCardInfoItem(
+    BuildContext context, {
+    required String label,
+    required String value,
+    required IconData icon,
+    bool isFreeMargin = false,
+    bool isPercentage = false,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: AppColors.secondaryWhite.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          color: AppColors.secondaryWhite.withOpacity(0.1),
+          width: 1,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                icon,
+                size: 14,
+                color: AppColors.secondaryWhite.withOpacity(0.7),
+              ),
+              const SizedBox(width: 4),
+              Text(
+                label,
+                style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      color: AppColors.secondaryWhite.withOpacity(0.7),
+                    ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          Text(
+            value,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.secondaryWhite,
+                ),
           ),
         ],
       ),
@@ -173,6 +305,7 @@ class HomeTab extends StatelessWidget {
                 icon: Iconsax.chart_outline,
                 label: 'Trade',
                 color: AppColors.primaryGold,
+                onTap: () => Get.toNamed('/trade'),
               ),
             ),
           ],
