@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
 import '../../../../constants/colors.dart';
+import '../markets/market_detail_page.dart';
 
 class MarketsTab extends StatelessWidget {
   const MarketsTab({super.key});
@@ -128,6 +130,14 @@ class MarketsTab extends StatelessWidget {
     return InkWell(
       onTap: () {
         // Navigate to market details
+        Get.to(
+          () => MarketDetailPage(
+            marketPair: pair,
+            currentPrice: price,
+          ),
+          transition: Transition.rightToLeft,
+          duration: const Duration(milliseconds: 300),
+        );
       },
       borderRadius: BorderRadius.circular(16),
       child: Container(

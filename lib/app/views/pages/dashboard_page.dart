@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
 import '../../../constants/colors.dart';
-import '../widgets/custom_drawer.dart';
 import 'dashboard/home_tab.dart';
 import 'dashboard/markets_tab.dart';
 import 'dashboard/transactions_tab.dart';
 import 'dashboard/signals_tab.dart';
+import 'dashboard/more_tab.dart';
 import 'search_page.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -25,6 +25,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
     MarketsTab(),
     TransactionsTab(),
     SignalsTab(),
+    MoreTab(),
   ];
 
   final List<_NavItem> _navItems = const [
@@ -48,6 +49,11 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
       activeIcon: Iconsax.notification_bing_bold,
       label: 'Signals',
     ),
+    _NavItem(
+      icon: Iconsax.more_outline,
+      activeIcon: Iconsax.more_bold,
+      label: 'More',
+    ),
   ];
 
   @override
@@ -56,7 +62,6 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
       key: _scaffoldKey,
       backgroundColor: AppColors.bgLight,
       appBar: _buildAppBar(),
-      drawer: const CustomDrawer(),
       body: AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
         switchInCurve: Curves.easeInOut,
@@ -85,7 +90,8 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
       elevation: 0,
       leading: IconButton(
         onPressed: () {
-          _scaffoldKey.currentState?.openDrawer();
+          // Tombol menu diubah untuk membuka notifikasi atau settings
+          Get.toNamed('/notifications');
         },
         icon: Icon(
           Iconsax.menu_outline,

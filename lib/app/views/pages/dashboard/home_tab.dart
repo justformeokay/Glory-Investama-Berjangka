@@ -40,12 +40,16 @@ class HomeTab extends StatelessWidget {
               _buildQuickActions(context),
               const SizedBox(height: 24),
 
-              // Market Overview
-              _buildMarketOverview(context),
+              // Market Analyst
+              _buildMarketAnalyst(context),
               const SizedBox(height: 24),
 
-              // Recent Transactions
-              _buildRecentTransactions(context),
+              // News
+              _buildNews(context),
+              const SizedBox(height: 24),
+
+              // Fundamentals
+              _buildFundamentals(context),
             ],
           ),
         ),
@@ -351,7 +355,7 @@ class HomeTab extends StatelessWidget {
     );
   }
 
-  Widget _buildMarketOverview(BuildContext context) {
+  Widget _buildMarketAnalyst(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -359,13 +363,13 @@ class HomeTab extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Market Overview',
+              'Market Analyst',
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () => Get.toNamed('/market-analysts'),
               child: Text(
                 'View All',
                 style: TextStyle(color: AppColors.primaryGold),
@@ -374,111 +378,181 @@ class HomeTab extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 16),
-        _buildMarketItem(
+        _buildAnalystCard(
           context,
-          pair: 'EUR/USD',
-          price: '1.0845',
-          change: '+0.25%',
-          isPositive: true,
+          analyst: 'Sarah Mitchell',
+          title: 'EUR/USD Bullish Pattern',
+          description: 'Strong support at 1.0820, expect breakout soon',
+          rating: 4.8,
+          followers: '2.3K',
+          color: AppColors.successGreen,
         ),
         const SizedBox(height: 12),
-        _buildMarketItem(
+        _buildAnalystCard(
           context,
-          pair: 'GBP/USD',
-          price: '1.2634',
-          change: '-0.12%',
-          isPositive: false,
+          analyst: 'John Premium',
+          title: 'GBP/USD Consolidation',
+          description: 'Waiting for breakout from range 1.2600-1.2700',
+          rating: 4.6,
+          followers: '1.8K',
+          color: AppColors.infoBlue,
         ),
         const SizedBox(height: 12),
-        _buildMarketItem(
+        _buildAnalystCard(
           context,
-          pair: 'USD/JPY',
-          price: '148.52',
-          change: '+0.45%',
-          isPositive: true,
+          analyst: 'Alex Trading',
+          title: 'USD/JPY Strong Resistance',
+          description: 'Key level at 149.00, watch for reversal signals',
+          rating: 4.5,
+          followers: '1.5K',
+          color: AppColors.errorRed,
         ),
       ],
     );
   }
 
-  Widget _buildMarketItem(
+  Widget _buildAnalystCard(
     BuildContext context, {
-    required String pair,
-    required String price,
-    required String change,
-    required bool isPositive,
+    required String analyst,
+    required String title,
+    required String description,
+    required double rating,
+    required String followers,
+    required Color color,
   }) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.secondaryWhite,
+        gradient: LinearGradient(
+          colors: [
+            AppColors.secondaryWhite,
+            AppColors.secondaryWhite.withOpacity(0.95),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
         borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: color.withOpacity(0.2),
+          width: 1.5,
+        ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.secondaryGrey.withOpacity(0.1),
-            blurRadius: 10,
+            color: color.withOpacity(0.08),
+            blurRadius: 12,
             offset: const Offset(0, 4),
           ),
         ],
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: AppColors.primaryGold.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Icon(
-                  Iconsax.chart_21_outline,
-                  color: AppColors.primaryGold,
-                  size: 20,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      analyst,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: AppColors.textSecondary,
+                            fontWeight: FontWeight.w500,
+                          ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      title,
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.textPrimary,
+                          ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(width: 12),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                decoration: BoxDecoration(
+                  color: color.withOpacity(0.15),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Iconsax.star_1_outline, color: color, size: 14),
+                    const SizedBox(width: 4),
+                    Text(
+                      rating.toStringAsFixed(1),
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: color,
+                          ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Text(
+            description,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: AppColors.textSecondary,
+                  height: 1.5,
+                ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+          const SizedBox(height: 12),
+          Container(
+            height: 1,
+            color: AppColors.secondaryGrey.withOpacity(0.1),
+          ),
+          const SizedBox(height: 12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
                 children: [
-                  Text(
-                    pair,
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                  Icon(
+                    Iconsax.people_outline,
+                    size: 14,
+                    color: AppColors.textSecondary,
                   ),
+                  const SizedBox(width: 6),
                   Text(
-                    price,
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    '$followers followers',
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
                           color: AppColors.textSecondary,
                         ),
                   ),
                 ],
               ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: color.withOpacity(0.15),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  'Follow',
+                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: color,
+                      ),
+                ),
+              ),
             ],
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            decoration: BoxDecoration(
-              color: (isPositive ? AppColors.successGreen : AppColors.errorRed)
-                  .withOpacity(0.1),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Text(
-              change,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: isPositive ? AppColors.successGreen : AppColors.errorRed,
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildRecentTransactions(BuildContext context) {
+  Widget _buildNews(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -486,13 +560,13 @@ class HomeTab extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Recent Transactions',
+              'News',
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () => Get.toNamed('/news'),
               child: Text(
                 'View All',
                 style: TextStyle(color: AppColors.primaryGold),
@@ -501,67 +575,290 @@ class HomeTab extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 16),
-        _buildTransactionItem(
+        _buildNewsCard(
           context,
-          icon: Iconsax.wallet_add_outline,
-          title: 'Deposit',
-          date: 'Dec 23, 2025',
-          amount: '+\$5,000.00',
-          isPositive: true,
+          title: 'ECB Holds Interest Rates at 4.5%',
+          summary: 'European Central Bank maintained its benchmark rate, citing persistent inflation concerns',
+          source: 'Reuters',
+          time: '2 hours ago',
+          category: 'Economic',
+          categoryColor: AppColors.infoBlue,
+          icon: Iconsax.trend_up_outline,
         ),
         const SizedBox(height: 12),
-        _buildTransactionItem(
+        _buildNewsCard(
           context,
-          icon: Iconsax.wallet_minus_outline,
-          title: 'Withdrawal',
-          date: 'Dec 22, 2025',
-          amount: '-\$2,000.00',
-          isPositive: false,
+          title: 'Fed Minutes Show Hawkish Stance',
+          summary: 'Federal Reserve officials signaled potential rate hikes in upcoming meetings',
+          source: 'Bloomberg',
+          time: '4 hours ago',
+          category: 'Policy',
+          categoryColor: AppColors.errorRed,
+          icon: Iconsax.warning_2_outline,
         ),
         const SizedBox(height: 12),
-        _buildTransactionItem(
+        _buildNewsCard(
           context,
+          title: 'Bank of Japan Signals Long-Term Changes',
+          summary: 'BoJ hints at potential monetary policy adjustments for 2026',
+          source: 'Financial Times',
+          time: '6 hours ago',
+          category: 'Strategy',
+          categoryColor: AppColors.successGreen,
           icon: Iconsax.chart_outline,
-          title: 'Trade EUR/USD',
-          date: 'Dec 21, 2025',
-          amount: '+\$150.00',
-          isPositive: true,
         ),
       ],
     );
   }
 
-  Widget _buildTransactionItem(
+  Widget _buildNewsCard(
     BuildContext context, {
-    required IconData icon,
     required String title,
-    required String date,
-    required String amount,
+    required String summary,
+    required String source,
+    required String time,
+    required String category,
+    required Color categoryColor,
+    required IconData icon,
+  }) {
+    return InkWell(
+      onTap: () {},
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: AppColors.secondaryWhite,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: AppColors.secondaryGrey.withOpacity(0.1),
+            width: 1,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.secondaryGrey.withOpacity(0.05),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: categoryColor.withOpacity(0.15),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(
+                    icon,
+                    color: categoryColor,
+                    size: 20,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.textPrimary,
+                            ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 4),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                        decoration: BoxDecoration(
+                          color: categoryColor.withOpacity(0.15),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Text(
+                          category,
+                          style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                                color: categoryColor,
+                                fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Text(
+              summary,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: AppColors.textSecondary,
+                    height: 1.5,
+                  ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+            const SizedBox(height: 12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  source,
+                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                        color: AppColors.primaryGold,
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+                Text(
+                  time,
+                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                        color: AppColors.textSecondary,
+                      ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFundamentals(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Fundamentals',
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            TextButton(
+              onPressed: () => Get.toNamed('/fundamentals'),
+              child: Text(
+                'View All',
+                style: TextStyle(color: AppColors.primaryGold),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        _buildFundamentalCard(
+          context,
+          country: 'United States',
+          indicator: 'Inflation Rate (CPI)',
+          current: '3.2%',
+          previous: '3.4%',
+          forecast: '3.1%',
+          change: -0.2,
+          isPositive: true,
+          icon: Iconsax.percentage_circle_outline,
+        ),
+        const SizedBox(height: 12),
+        _buildFundamentalCard(
+          context,
+          country: 'Eurozone',
+          indicator: 'GDP Growth Rate',
+          current: '0.9%',
+          previous: '0.8%',
+          forecast: '1.0%',
+          change: 0.1,
+          isPositive: true,
+          icon: Iconsax.trend_up_outline,
+        ),
+        const SizedBox(height: 12),
+        _buildFundamentalCard(
+          context,
+          country: 'United Kingdom',
+          indicator: 'Unemployment Rate',
+          current: '4.0%',
+          previous: '3.9%',
+          forecast: '4.1%',
+          change: 0.1,
+          isPositive: false,
+          icon: Iconsax.trend_down_outline,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildFundamentalCard(
+    BuildContext context, {
+    required String country,
+    required String indicator,
+    required String current,
+    required String previous,
+    required String forecast,
+    required double change,
     required bool isPositive,
+    required IconData icon,
   }) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.secondaryWhite,
+        gradient: LinearGradient(
+          colors: [
+            AppColors.secondaryWhite,
+            AppColors.secondaryWhite.withOpacity(0.95),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
         borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: (isPositive ? AppColors.successGreen : AppColors.errorRed).withOpacity(0.2),
+          width: 1.5,
+        ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.secondaryGrey.withOpacity(0.1),
-            blurRadius: 10,
+            color: (isPositive ? AppColors.successGreen : AppColors.errorRed).withOpacity(0.08),
+            blurRadius: 12,
             offset: const Offset(0, 4),
           ),
         ],
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      country,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: AppColors.textSecondary,
+                            fontWeight: FontWeight.w500,
+                          ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      indicator,
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.textPrimary,
+                          ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: (isPositive ? AppColors.successGreen : AppColors.errorRed)
-                      .withOpacity(0.1),
+                  color: (isPositive ? AppColors.successGreen : AppColors.errorRed).withOpacity(0.15),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
@@ -570,35 +867,88 @@ class HomeTab extends StatelessWidget {
                   size: 20,
                 ),
               ),
-              const SizedBox(width: 12),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                  ),
-                  Text(
-                    date,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: AppColors.textSecondary,
-                        ),
-                  ),
-                ],
+            ],
+          ),
+          const SizedBox(height: 16),
+          Container(
+            height: 1,
+            color: AppColors.secondaryGrey.withOpacity(0.1),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _buildFundamentalValue(
+                context,
+                label: 'Current',
+                value: current,
+              ),
+              _buildFundamentalValue(
+                context,
+                label: 'Previous',
+                value: previous,
+              ),
+              _buildFundamentalValue(
+                context,
+                label: 'Forecast',
+                value: forecast,
               ),
             ],
           ),
-          Text(
-            amount,
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
+          const SizedBox(height: 12),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            decoration: BoxDecoration(
+              color: (isPositive ? AppColors.successGreen : AppColors.errorRed).withOpacity(0.1),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Row(
+              children: [
+                Icon(
+                  isPositive ? Iconsax.arrow_up_2_outline : Iconsax.arrow_down_2_outline,
                   color: isPositive ? AppColors.successGreen : AppColors.errorRed,
+                  size: 14,
                 ),
+                const SizedBox(width: 6),
+                Text(
+                  '${isPositive ? '+' : ''}${change.toStringAsFixed(1)}% vs Previous',
+                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                        color: isPositive ? AppColors.successGreen : AppColors.errorRed,
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildFundamentalValue(
+    BuildContext context, {
+    required String label,
+    required String value,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          label,
+          style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                color: AppColors.textSecondary,
+                fontWeight: FontWeight.w500,
+              ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          value,
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: AppColors.textPrimary,
+              ),
+        ),
+      ],
     );
   }
 }

@@ -9,6 +9,7 @@ import 'package:gifx/app/bindings/passcode_binding.dart';
 import 'package:gifx/app/bindings/sign_in_binding.dart';
 import 'package:gifx/app/bindings/trade_binding.dart';
 import 'package:gifx/app/bindings/withdrawal_binding.dart';
+import 'package:gifx/app/bindings/profile_binding.dart';
 import 'package:gifx/app/views/pages/dashboard_page.dart';
 import 'package:gifx/app/views/pages/deposit_page.dart';
 import 'package:gifx/app/views/pages/forgot_password_page.dart';
@@ -20,6 +21,10 @@ import 'package:gifx/app/views/pages/sign_in_page.dart';
 import 'package:gifx/app/views/pages/textfield_demo_page.dart';
 import 'package:gifx/app/views/pages/trade_page.dart';
 import 'package:gifx/app/views/pages/withdrawal_page.dart';
+import 'package:gifx/app/views/pages/market_analyst_detail_page.dart';
+import 'package:gifx/app/views/pages/news_detail_page.dart';
+import 'package:gifx/app/views/pages/fundamentals_detail_page.dart';
+import 'package:gifx/app/views/pages/profile_page.dart';
 
 class Routes {
   static List<GetPage<dynamic>> getPages = [
@@ -87,6 +92,37 @@ class Routes {
       page: () => TradePage(),
       binding: TradeBinding(),
       transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: '/market-analysts',
+      page: () => const MarketAnalystDetailPage(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: '/analyst-profile',
+      page: () => const MarketAnalystDetailPage(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: '/news',
+      page: () => const NewsDetailPage(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: '/news-article',
+      page: () => const NewsDetailPage(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: '/fundamentals',
+      page: () => const FundamentalsDetailPage(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: '/profile',
+      page: () => const ProfilePage(),
+      binding: ProfileBinding(),
+      transition: Transition.cupertino,
     ),
   ];
 }
