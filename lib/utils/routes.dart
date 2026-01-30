@@ -10,6 +10,10 @@ import 'package:gifx/app/bindings/sign_in_binding.dart';
 import 'package:gifx/app/bindings/trade_binding.dart';
 import 'package:gifx/app/bindings/withdrawal_binding.dart';
 import 'package:gifx/app/bindings/profile_binding.dart';
+import 'package:gifx/app/bindings/security_binding.dart';
+import 'package:gifx/app/bindings/market_analysis_binding.dart';
+import 'package:gifx/app/bindings/fundamentals_binding.dart';
+import 'package:gifx/app/bindings/market_detail_binding.dart';
 import 'package:gifx/app/views/pages/dashboard_page.dart';
 import 'package:gifx/app/views/pages/deposit_page.dart';
 import 'package:gifx/app/views/pages/forgot_password_page.dart';
@@ -25,6 +29,9 @@ import 'package:gifx/app/views/pages/market_analyst_detail_page.dart';
 import 'package:gifx/app/views/pages/news_detail_page.dart';
 import 'package:gifx/app/views/pages/fundamentals_detail_page.dart';
 import 'package:gifx/app/views/pages/profile_page.dart';
+import 'package:gifx/app/views/pages/security_page.dart';
+import 'package:gifx/app/views/pages/market_analysis_detail_page.dart';
+import 'package:gifx/app/views/pages/markets/market_detail_page.dart';
 
 class Routes {
   static List<GetPage<dynamic>> getPages = [
@@ -116,12 +123,34 @@ class Routes {
     GetPage(
       name: '/fundamentals',
       page: () => const FundamentalsDetailPage(),
+      binding: FundamentalsBinding(),
       transition: Transition.cupertino,
     ),
     GetPage(
       name: '/profile',
       page: () => const ProfilePage(),
       binding: ProfileBinding(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: '/security',
+      page: () => const SecurityPage(),
+      binding: SecurityBinding(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: '/market-analysis-detail',
+      page: () => const MarketAnalysisDetailPage(),
+      binding: MarketAnalysisBinding(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: '/market-detail',
+      page: () => MarketDetailPage(
+        marketPair: Get.arguments?['marketPair'] ?? 'EUR/USD',
+        currentPrice: Get.arguments?['currentPrice'] ?? '1.0850',
+      ),
+      binding: MarketDetailBinding(),
       transition: Transition.cupertino,
     ),
   ];

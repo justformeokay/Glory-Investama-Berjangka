@@ -86,6 +86,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
 
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
+      forceMaterialTransparency: true,
       backgroundColor: AppColors.secondaryWhite,
       elevation: 0,
       leading: IconButton(

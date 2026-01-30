@@ -20,18 +20,50 @@ class MarketDetailPage extends StatefulWidget {
 }
 
 class _MarketDetailPageState extends State<MarketDetailPage> {
-  late final WebViewController _webViewController;
+  late WebViewController _webViewController;
   bool _isLoading = true;
   String _selectedTimeframe = '1H';
+  late MarketDetailController _controller;
 
   @override
   void initState() {
     super.initState();
+    // Initialize controller
+    _controller = Get.put<MarketDetailController>(MarketDetailController());
     _initializeWebView();
+  }
+
+  @override
+  void dispose() {
+    // Clean up controller
+    Get.delete<MarketDetailController>();
+    super.dispose();
+  }
+
+  String _getTimeframeInterval(String timeframe) {
+    switch (timeframe) {
+      case '1M':
+        return '1';
+      case '5M':
+        return '5';
+      case '15M':
+        return '15';
+      case '1H':
+        return '60';
+      case '4H':
+        return '240';
+      case '1D':
+        return '1440';
+      case '1W':
+        return 'W';
+      default:
+        return '60';
+    }
   }
 
   void _initializeWebView() {
     final symbol = widget.marketPair.replaceAll('/', '');
+    final interval = _getTimeframeInterval(_selectedTimeframe);
     
     _webViewController = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -54,7 +86,7 @@ class _MarketDetailPageState extends State<MarketDetailPage> {
         Uri.parse(
           'https://www.tradingview.com/widgetembed/?frameElementId=tradingview_chart'
           '&symbol=FX:$symbol'
-          '&interval=60'
+          '&interval=$interval'
           '&hidesidetoolbar=0'
           '&symboledit=1'
           '&saveimage=1'
@@ -389,7 +421,7 @@ class _MarketDetailPageState extends State<MarketDetailPage> {
             const SizedBox(height: 12),
             _buildConfirmRow('Price', widget.currentPrice),
             const SizedBox(height: 12),
-            Obx(() => _buildConfirmRow('Lot Size', Get.put(MarketDetailController()).lotSize.value.toStringAsFixed(2))),
+            Obx(() => _buildConfirmRow('Lot Size', _controller.lotSize.value.toStringAsFixed(2))),
             const SizedBox(height: 12),
             _buildConfirmRow('Type', isBuy ? 'Market Buy' : 'Market Sell'),
           ],
@@ -532,75 +564,74 @@ class _MarketDetailPageState extends State<MarketDetailPage> {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-                  _buildTimeframeChip('1M'),
-                  const SizedBox(width: 8),
-                  _buildTimeframeChip('5M'),
-                  const SizedBox(width: 8),
-                  _buildTimeframeChip('15M'),
-                  const SizedBox(width: 8),
-                  _buildTimeframeChip('1H'),
-                  const SizedBox(width: 8),
-                  _buildTimeframeChip('4H'),
-                  const SizedBox(width: 8),
-                  _buildTimeframeChip('1D'),
-                  const SizedBox(width: 8),
-                  _buildTimeframeChip('1W'),
-                ],
+                    _buildTimeframeChip('1M'),
+                    const SizedBox(width: 8),
+                    _buildTimeframeChip('5M'),
+                    const SizedBox(width: 8),
+                    _buildTimeframeChip('15M'),
+                    const SizedBox(width: 8),
+                    _buildTimeframeChip('1H'),
+                    const SizedBox(width: 8),
+                    _buildTimeframeChip('4H'),
+                    const SizedBox(width: 8),
+                    _buildTimeframeChip('1D'),
+                    const SizedBox(width: 8),
+                    _buildTimeframeChip('1W'),
+                  ],
+                ),
               ),
             ),
-          ),
 
-          // Chart WebView
-          Expanded(
-            child: Stack(
-              children: [
-                Container(
-                  margin: const EdgeInsets.all(0),
-                  decoration: BoxDecoration(
-                    color: AppColors.secondaryWhite,
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.secondaryGrey.withOpacity(0.1),
-                        blurRadius: 10,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  clipBehavior: Clip.hardEdge,
-                  child: WebViewWidget(controller: _webViewController),
+            // Chart WebView
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppColors.secondaryWhite,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.secondaryGrey.withOpacity(0.1),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
                 ),
-                if (_isLoading)
-                  Center(
-                    child: Container(
-                      padding: const EdgeInsets.all(24),
-                      decoration: BoxDecoration(
-                        color: AppColors.secondaryWhite,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              AppColors.primaryGold,
+                // margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                clipBehavior: Clip.hardEdge,
+                child: Stack(
+                children: [
+                  WebViewWidget(controller: _webViewController),
+                  if (_isLoading)
+                    Center(
+                      child: Container(
+                        padding: const EdgeInsets.all(24),
+                        decoration: BoxDecoration(
+                          color: AppColors.secondaryWhite,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                AppColors.primaryGold,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 16),
-                          Text(
-                            'Loading Chart...',
-                            style: TextStyle(
-                              color: AppColors.textSecondary,
-                              fontWeight: FontWeight.w500,
+                            const SizedBox(height: 16),
+                            Text(
+                              'Loading Chart...',
+                              style: TextStyle(
+                                color: AppColors.textSecondary,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-              ],
-            ),
-          ),
+                ],
+              ),
+            ),),
 
           // Trading buttons
           Container(
@@ -636,10 +667,10 @@ class _MarketDetailPageState extends State<MarketDetailPage> {
                       child: Obx(() => Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Bootstrap.pie_chart_fill, size: 18),
+                          Icon(Iconsax.chart_outline, size: 18),
                           const SizedBox(width: 8),
                           Text(
-                            Get.find<MarketDetailController>().lotSize.value.toStringAsFixed(2),
+                            _controller.lotSize.value.toStringAsFixed(2),
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -659,7 +690,7 @@ class _MarketDetailPageState extends State<MarketDetailPage> {
                     ),
                     child: IconButton(
                       onPressed: _showSettings,
-                      icon: Icon(Bootstrap.gear_fill),
+                      icon: const Icon(Iconsax.setting_2_outline),
                       color: AppColors.primaryGold,
                       iconSize: 24,
                       padding: const EdgeInsets.all(16),
@@ -684,7 +715,7 @@ class _MarketDetailPageState extends State<MarketDetailPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Bootstrap.arrow_up_circle_fill, size: 20),
+                          Icon(Iconsax.arrow_up_1_outline, size: 20),
                           const SizedBox(width: 8),
                           const Text(
                             'BUY',
@@ -716,7 +747,7 @@ class _MarketDetailPageState extends State<MarketDetailPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Bootstrap.arrow_down_circle_fill, size: 20),
+                          Icon(Iconsax.arrow_down_1_outline, size: 20),
                           const SizedBox(width: 8),
                           const Text(
                             'SELL',
@@ -744,6 +775,8 @@ class _MarketDetailPageState extends State<MarketDetailPage> {
       onTap: () {
         setState(() {
           _selectedTimeframe = timeframe;
+          // Reload WebView dengan timeframe baru
+          _initializeWebView();
         });
       },
       borderRadius: BorderRadius.circular(8),

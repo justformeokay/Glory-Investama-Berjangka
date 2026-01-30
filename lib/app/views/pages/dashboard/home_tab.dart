@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
 import '../../../../constants/colors.dart';
+import '../market_analysis_detail_page.dart';
+import '../news_detail_page.dart';
 
 class HomeTab extends StatelessWidget {
   const HomeTab({super.key});
@@ -420,33 +422,44 @@ class HomeTab extends StatelessWidget {
     required String followers,
     required Color color,
   }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            AppColors.secondaryWhite,
-            AppColors.secondaryWhite.withOpacity(0.95),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+    return InkWell(
+      onTap: () => Get.to(
+        () => MarketAnalysisDetailPage(
+          analystName: analyst,
+          analysisTitle: title,
+          color: color,
         ),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: color.withOpacity(0.2),
-          width: 1.5,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: color.withOpacity(0.08),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        transition: Transition.rightToLeft,
+        duration: const Duration(milliseconds: 300),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              AppColors.secondaryWhite,
+              AppColors.secondaryWhite.withOpacity(0.95),
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: color.withOpacity(0.2),
+            width: 1.5,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: color.withOpacity(0.08),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -547,7 +560,7 @@ class HomeTab extends StatelessWidget {
               ),
             ],
           ),
-        ],
+        ],),
       ),
     );
   }
@@ -622,7 +635,18 @@ class HomeTab extends StatelessWidget {
     required IconData icon,
   }) {
     return InkWell(
-      onTap: () {},
+      onTap: () => Get.to(
+        () => NewsDetailPage(
+          title: title,
+          summary: summary,
+          source: source,
+          time: time,
+          category: category,
+          categoryColor: categoryColor,
+        ),
+        transition: Transition.rightToLeft,
+        duration: const Duration(milliseconds: 300),
+      ),
       borderRadius: BorderRadius.circular(16),
       child: Container(
         padding: const EdgeInsets.all(16),
@@ -801,126 +825,140 @@ class HomeTab extends StatelessWidget {
     required bool isPositive,
     required IconData icon,
   }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            AppColors.secondaryWhite,
-            AppColors.secondaryWhite.withOpacity(0.95),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: (isPositive ? AppColors.successGreen : AppColors.errorRed).withOpacity(0.2),
-          width: 1.5,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: (isPositive ? AppColors.successGreen : AppColors.errorRed).withOpacity(0.08),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      country,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: AppColors.textSecondary,
-                            fontWeight: FontWeight.w500,
-                          ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      indicator,
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.textPrimary,
-                          ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: (isPositive ? AppColors.successGreen : AppColors.errorRed).withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Icon(
-                  icon,
-                  color: isPositive ? AppColors.successGreen : AppColors.errorRed,
-                  size: 20,
-                ),
-              ),
+    return InkWell(
+      onTap: () {
+        Get.toNamed(
+          '/fundamentals',
+          arguments: {
+            'companyName': indicator,
+            'ticker': country,
+            'categoryColor': isPositive ? AppColors.successGreen : AppColors.errorRed,
+            'sector': 'Economics',
+          },
+        );
+      },
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              AppColors.secondaryWhite,
+              AppColors.secondaryWhite.withOpacity(0.95),
             ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
-          const SizedBox(height: 16),
-          Container(
-            height: 1,
-            color: AppColors.secondaryGrey.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: (isPositive ? AppColors.successGreen : AppColors.errorRed).withOpacity(0.2),
+            width: 1.5,
           ),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _buildFundamentalValue(
-                context,
-                label: 'Current',
-                value: current,
-              ),
-              _buildFundamentalValue(
-                context,
-                label: 'Previous',
-                value: previous,
-              ),
-              _buildFundamentalValue(
-                context,
-                label: 'Forecast',
-                value: forecast,
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            decoration: BoxDecoration(
-              color: (isPositive ? AppColors.successGreen : AppColors.errorRed).withOpacity(0.1),
-              borderRadius: BorderRadius.circular(8),
+          boxShadow: [
+            BoxShadow(
+              color: (isPositive ? AppColors.successGreen : AppColors.errorRed).withOpacity(0.08),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
             ),
-            child: Row(
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Icon(
-                  isPositive ? Iconsax.arrow_up_2_outline : Iconsax.arrow_down_2_outline,
-                  color: isPositive ? AppColors.successGreen : AppColors.errorRed,
-                  size: 14,
-                ),
-                const SizedBox(width: 6),
-                Text(
-                  '${isPositive ? '+' : ''}${change.toStringAsFixed(1)}% vs Previous',
-                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: isPositive ? AppColors.successGreen : AppColors.errorRed,
-                        fontWeight: FontWeight.bold,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        country,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: AppColors.textSecondary,
+                              fontWeight: FontWeight.w500,
+                            ),
                       ),
+                      const SizedBox(height: 4),
+                      Text(
+                        indicator,
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.textPrimary,
+                            ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: (isPositive ? AppColors.successGreen : AppColors.errorRed).withOpacity(0.15),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(
+                    icon,
+                    color: isPositive ? AppColors.successGreen : AppColors.errorRed,
+                    size: 20,
+                  ),
                 ),
               ],
             ),
-          ),
-        ],
+            const SizedBox(height: 16),
+            Container(
+              height: 1,
+              color: AppColors.secondaryGrey.withOpacity(0.1),
+            ),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _buildFundamentalValue(
+                  context,
+                  label: 'Current',
+                  value: current,
+                ),
+                _buildFundamentalValue(
+                  context,
+                  label: 'Previous',
+                  value: previous,
+                ),
+                _buildFundamentalValue(
+                  context,
+                  label: 'Forecast',
+                  value: forecast,
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              decoration: BoxDecoration(
+                color: (isPositive ? AppColors.successGreen : AppColors.errorRed).withOpacity(0.1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    isPositive ? Iconsax.arrow_up_2_outline : Iconsax.arrow_down_2_outline,
+                    color: isPositive ? AppColors.successGreen : AppColors.errorRed,
+                    size: 14,
+                  ),
+                  const SizedBox(width: 6),
+                  Text(
+                    '${isPositive ? '+' : ''}${change.toStringAsFixed(1)}% vs Previous',
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                          color: isPositive ? AppColors.successGreen : AppColors.errorRed,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -54,14 +54,26 @@ class MoreTab extends StatelessWidget {
                   icon: Iconsax.chart_outline,
                   title: 'Portfolio',
                   subtitle: 'View Holdings',
-                  onTap: () => Get.toNamed('/portfolio'),
+                  onTap: () => Get.showSnackbar(
+                    GetSnackBar(
+                      title: 'Portfolio',
+                      message: 'Portfolio feature coming soon',
+                      duration: const Duration(seconds: 2),
+                    ),
+                  ),
                   color: AppColors.primaryGold,
                 ),
                 _buildMenuItem(
                   icon: Iconsax.trend_up_outline,
                   title: 'History',
                   subtitle: 'Trade History',
-                  onTap: () => Get.toNamed('/trade-history'),
+                  onTap: () => Get.showSnackbar(
+                    GetSnackBar(
+                      title: 'Trade History',
+                      message: 'Trade history coming soon',
+                      duration: const Duration(seconds: 2),
+                    ),
+                  ),
                   color: AppColors.errorRed,
                 ),
               ]),
